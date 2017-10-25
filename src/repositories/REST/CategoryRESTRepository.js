@@ -10,7 +10,7 @@ class CategoryRESTRepository {
   }
 
   get() {
-    fetch(`${this.address}/categories`, { headers: this.headers })
+    return fetch(`${this.address}/categories`, { headers: this.headers })
       .then(res => res.json())
       .then(data => data.categories);
   }

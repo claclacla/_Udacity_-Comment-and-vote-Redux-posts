@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-import CategoryRESTRepository from '../repositories/REST/CategoryRESTRepository';
+import { getAsyncCategories } from '../actions/category';
 
 class Home extends React.Component {
-  render() {
-    var categoryRESTRepository = new CategoryRESTRepository();
-    categoryRESTRepository.get();
+  constructor(props) {
+    super(props);
 
+    this.props.getCategories();
+  }
+
+  render() {
     return (
       <ul className="categories-names-list">
         <li className="category-name">Category1</li>
@@ -16,4 +20,19 @@ class Home extends React.Component {
   }
 }
 
-export default Home
+function mapStateToProps({ categories }) {
+  return {
+    categories: categories
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getCategories: () => dispatch(getAsyncCategories())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)
