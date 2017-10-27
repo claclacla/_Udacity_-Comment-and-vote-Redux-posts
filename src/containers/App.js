@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 
-import { getAsyncCategories } from '../actions/category';
+import { getAsyncCategories } from '../actions/categories';
 
 import Home from './Home';
 import ProductCategory from './ProductCategory';
@@ -19,7 +19,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/" component={Home}></Route>
-        <Route path="/category/:categoryPath" component={ProductCategory}></Route>
+        <Route path="/category/:categoryName" component={ProductCategory}></Route>
       </div>
     );
   }

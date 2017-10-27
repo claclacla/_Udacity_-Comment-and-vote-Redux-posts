@@ -1,14 +1,6 @@
-class CategoryRESTRepository {
-  constructor() {
-    let token = Math.random().toString(36).substr(-8);
+import IRESTRepository from './IRESTRepository';
 
-    this.address = "http://localhost:3001";
-    this.headers = {
-      'Accept': 'application/json',
-      'Authorization': token
-    }
-  }
-
+class CategoryRESTRepository extends IRESTRepository {
   get() {
     return fetch(`${this.address}/categories`, { headers: this.headers })
       .then(res => res.json())

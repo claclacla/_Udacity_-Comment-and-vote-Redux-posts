@@ -4,12 +4,7 @@ import { Link } from 'react-router-dom';
 
 class ProductCategory extends React.Component {
   render() {
-    const categoryPath = this.props.match.params.categoryPath;
-    let categoryName = "";
-    
-    if(this.props.categories) {
-      categoryName = this.props.categories.find(category => category.path === categoryPath).name;
-    }
+    const categoryName = this.props.match.params.categoryName;
 
     return (
       <div>
