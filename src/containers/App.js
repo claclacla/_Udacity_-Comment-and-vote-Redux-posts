@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 
 import { getAsyncCategories } from '../actions/category';
@@ -25,19 +25,13 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({categories}) {
-  return {
-    categories: categories
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     getCategories: () => dispatch(getAsyncCategories())
   }
 }
 
-export default connect(
-  mapStateToProps,
+export default withRouter(connect(
+  null,
   mapDispatchToProps
-)(App);
+)(App));
