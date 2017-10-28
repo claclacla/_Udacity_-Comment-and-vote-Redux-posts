@@ -22,3 +22,21 @@ body, .app {
   padding-top: 10px;
   color: white;
 }
+
+.home-posts-list {
+  position: absolute;
+  top: 0px;
+  left: 250px;
+  width: 80%;
+}
+
+.posts-list {
+  list-style-type: none;
+  width: 400px;
+  height: 100vh;
+  background: white;
+}
+
+.posts-list li {
+  padding: 5px;
+}
