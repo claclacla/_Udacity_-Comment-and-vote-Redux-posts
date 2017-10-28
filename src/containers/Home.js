@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import PostsList from '../components/PostsList'
+import PostsList from '../components/PostsList';
 
 class Home extends React.Component {
   render() {
