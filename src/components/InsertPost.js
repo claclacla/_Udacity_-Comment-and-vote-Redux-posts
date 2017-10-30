@@ -1,13 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Post from '../dtos/Post'
 import { addAsyncPost } from '../actions/posts';
 
 class InsertPost extends React.Component {
-  state = {
-    title: ""
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: ""
+    }
+
+    if (props.category) {
+      this.state = {
+        category: props.category
+      };
+    }
+  }
+
+  static propTypes = {
+    category: PropTypes.string
+  }
 
   updateTitle = (title) => {
     this.setState({ title });
@@ -56,13 +71,17 @@ class InsertPost extends React.Component {
           <input type="text" onChange={(event) => this.updateTitle(event.target.value)} value={this.state.title} /><br />
           Author<br />
           <input type="text" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.author} /><br />
-          Category <br />
-          <select value={this.state.category} onChange={(event) => this.updateCategory(event.target.value)}>
-            <option></option>
-            {this.props.categories && Object.values(this.props.categories).map(
-              category => (<option value={category.name}>{category.name}</option>)
-            )}
-          </select>
+
+          Category < br />
+          {!this.props.category && <div>
+            <select value={this.state.category} onChange={(event) => this.updateCategory(event.target.value)}>
+              <option></option>
+              {this.props.categories && Object.values(this.props.categories).map(
+                category => (<option value={category.name}>{category.name}</option>)
+              )}
+            </select></div>}
+          {this.props.category && <div>{this.props.category}</div>}
+
           <br />
           Body<br />
           <textarea value={this.state.body} onChange={(event) => this.updateBody(event.target.value)} />

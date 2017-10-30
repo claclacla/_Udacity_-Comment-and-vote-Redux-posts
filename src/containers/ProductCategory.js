@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import PostsList from '../components/PostsList';
+import InsertPost from '../components/InsertPost';
 
 class ProductCategory extends React.Component {
   render() {
@@ -12,6 +13,7 @@ class ProductCategory extends React.Component {
       <div>
         <h1>{categoryName}</h1>
         <PostsList category={categoryName}/>
+        <InsertPost category={categoryName}/>
         <Link to="/">Go to home</Link>
       </div>
     );
