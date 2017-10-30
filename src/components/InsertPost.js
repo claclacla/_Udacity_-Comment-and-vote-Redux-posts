@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import Post from '../dtos/Post'
+import { addAsyncPost } from '../actions/posts';
 
 class InsertPost extends React.Component {
   state = {
@@ -10,7 +14,8 @@ class InsertPost extends React.Component {
   }
 
   addPost = () => {
-    console.log("HI");
+    var post = new Post(this.state.title);
+    this.props.addPost(post);
   }
 
   handleSubmit = (event) => {
@@ -30,4 +35,13 @@ class InsertPost extends React.Component {
   }
 }
 
-export default InsertPost;
+function mapDispatchToProps(dispatch) {
+  return {
+    addPost: (data) => dispatch(addAsyncPost(data))
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(InsertPost);

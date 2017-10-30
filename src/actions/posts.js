@@ -1,6 +1,9 @@
 import PostRESTRepository from '../repositories/REST/PostRESTRepository';
 
+var postRESTRepository = new PostRESTRepository();
+
 export const GET_POSTS = "GET_POSTS";
+export const ADD_POST = "ADD_POST";
 
 export function getPosts({ posts }) {
   return {
@@ -9,11 +12,25 @@ export function getPosts({ posts }) {
   }
 }
 
+export function addPost(post) {
+  return {
+    type: ADD_POST,
+    post
+  }
+}
+
 export function getAsyncPosts() {
   return function (dispatch) {
-    var postRESTRepository = new PostRESTRepository();
     postRESTRepository.get().then(posts => {
       dispatch(getPosts({ posts }));
     });
+  }
+}
+
+export function addAsyncPost(post) {
+  return function (dispatch) {
+    postRESTRepository.add(post).then((resPost) => {
+      dispatch(addPost(resPost));
+    })
   }
 }

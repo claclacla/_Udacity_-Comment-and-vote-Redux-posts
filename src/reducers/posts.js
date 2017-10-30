@@ -1,4 +1,4 @@
-import { GET_POSTS } from '../actions/posts';
+import { GET_POSTS, ADD_POST } from '../actions/posts';
 
 function posts(state = {}, action) {
   switch (action.type) {
@@ -7,6 +7,10 @@ function posts(state = {}, action) {
         hash[post.id] = post;
         return hash;
       }, {}));
+    case ADD_POST:
+      return Object.assign({}, state, {
+        [action.post.id]: action.post
+      });
     default:
       return state;
   }
