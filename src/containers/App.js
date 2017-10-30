@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getAsyncCategories } from '../actions/categories';
 
 import Home from './Home';
-import ProductCategory from './ProductCategory';
+import PostCategory from './PostCategory';
 import '../App.css';
 
 class App extends Component {
@@ -19,7 +19,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/" component={Home}></Route>
-        <Route path="/category/:categoryName" component={ProductCategory}></Route>
+        <Route path="/category/:categoryName" component={PostCategory}></Route>
       </div>
     );
   }

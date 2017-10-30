@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import PostsList from '../components/PostsList';
 import InsertPost from '../components/InsertPost';
 
-class ProductCategory extends React.Component {
+class PostCategory extends React.Component {
   render() {
     const categoryName = this.props.match.params.categoryName;
 
@@ -28,4 +28,4 @@ function mapStateToProps({ categories }) {
 
 export default connect(
   mapStateToProps
-)(ProductCategory)
+)(PostCategory)
