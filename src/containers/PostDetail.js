@@ -14,20 +14,38 @@ class PostDetail extends React.Component {
 
   render() {
     let post = {};
+    let timestampString = "";
 
     if (this.props.posts && this.props.posts[this.postId]) {
       post = this.props.posts[this.postId];
+
+      let getTimeDataString = function (timeData) {
+        let timeDataString = timeData.toString();
+
+        if(timeDataString.length === 1) {
+          timeDataString = "0" + timeDataString;
+        }
+        return timeDataString;
+      };
+
+      let timestamp = new Date(post.timestamp);
+      timestampString = getTimeDataString(timestamp.getHours());
+      timestampString += ":" + getTimeDataString(timestamp.getMinutes());
+      timestampString += " " + getTimeDataString(timestamp.getDate());
+      timestampString += "/" + getTimeDataString(timestamp.getMonth());
+      timestampString += "/" + timestamp.getFullYear();
     }
 
     return (
       <div>
         <h1>Post detail</h1>
 
+        <div><b>Date</b> {timestampString}</div>
         <div><b>Title</b> {post.title}</div>
         <div><b>Author</b> {post.author}</div>
         <div><b>Category</b> {post.category}</div>
         <div>
-          <b>Body</b> 
+          <b>Body</b>
           <br /><br />
           {post.body}
         </div>
