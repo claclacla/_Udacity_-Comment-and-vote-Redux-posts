@@ -77,7 +77,7 @@ class InsertPost extends React.Component {
             <select value={this.state.category} onChange={(event) => this.updateCategory(event.target.value)}>
               <option></option>
               {this.props.categories && Object.values(this.props.categories).map(
-                category => (<option value={category.name}>{category.name}</option>)
+                (category, idx) => (<option value={category.name} key={idx}>{category.name}</option>)
               )}
             </select></div>}
           {this.props.category && <div>{this.props.category}</div>}

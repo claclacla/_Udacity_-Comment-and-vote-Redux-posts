@@ -6,14 +6,18 @@ import PostsList from '../components/PostsList';
 import InsertPost from '../components/InsertPost';
 
 class PostCategory extends React.Component {
-  render() {
-    const categoryName = this.props.match.params.categoryName;
+  constructor(props) {
+    super(props);
 
+    this.categoryName = this.props.match.params.categoryName;
+  }
+
+  render() {
     return (
       <div>
-        <h1>{categoryName}</h1>
-        <PostsList category={categoryName}/>
-        <InsertPost category={categoryName}/>
+        <h1>{this.categoryName}</h1>
+        <PostsList category={this.categoryName}/>
+        <InsertPost category={this.categoryName}/>
         <Link to="/">Go to home</Link>
       </div>
     );

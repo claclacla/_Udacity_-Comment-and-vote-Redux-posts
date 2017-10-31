@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -29,7 +30,7 @@ class PostsList extends React.Component {
     return (
       <ul className="posts-list">
         {posts.map((post, idx) => (
-          <li key={idx}>{post.title}</li>
+          <li key={idx}><Link to={"/post/" + post.id}>{post.title}</Link></li>
         ))}
       </ul>
     );
