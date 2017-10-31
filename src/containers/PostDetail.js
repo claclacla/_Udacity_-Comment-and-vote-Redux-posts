@@ -22,7 +22,7 @@ class PostDetail extends React.Component {
       let getTimeDataString = function (timeData) {
         let timeDataString = timeData.toString();
 
-        if(timeDataString.length === 1) {
+        if (timeDataString.length === 1) {
           timeDataString = "0" + timeDataString;
         }
         return timeDataString;
@@ -39,6 +39,12 @@ class PostDetail extends React.Component {
     return (
       <div>
         <h1>Post detail</h1>
+        <div>
+          <span>Edit</span>
+          &nbsp;
+          <span>Delete</span>
+        </div>
+        <br />
 
         <div><b>Date</b> {timestampString}</div>
         <div><b>Vote score</b> {post.voteScore}</div>

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import PostsList from '../components/PostsList';
-import InsertPost from '../components/InsertPost';
 
 class Home extends React.Component {
   render() {
@@ -16,7 +15,7 @@ class Home extends React.Component {
         </ul>
         <div className="home-posts-list">
           <PostsList />
-          <InsertPost />
+          <Link to="/post-editor">Add a new post</Link>
         </div>
       </div>
     )

@@ -1,27 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Post from '../dtos/Post'
 import { addAsyncPost } from '../actions/posts';
 
-class InsertPost extends React.Component {
+class PostEditor extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       title: ""
     }
-
-    if (props.category) {
-      this.state = {
-        category: props.category
-      };
-    }
-  }
-
-  static propTypes = {
-    category: PropTypes.string
   }
 
   updateTitle = (title) => {
@@ -73,14 +63,13 @@ class InsertPost extends React.Component {
           <input type="text" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.author} /><br />
 
           Category < br />
-          {!this.props.category && <div>
+          {<div>
             <select value={this.state.category} onChange={(event) => this.updateCategory(event.target.value)}>
               <option></option>
               {this.props.categories && Object.values(this.props.categories).map(
                 (category, idx) => (<option value={category.name} key={idx}>{category.name}</option>)
               )}
             </select></div>}
-          {this.props.category && <div>{this.props.category}</div>}
 
           <br />
           Body<br />
@@ -88,6 +77,8 @@ class InsertPost extends React.Component {
           <br />
           <button onClick={this.addPost}>Add</button>
         </form>
+
+        <Link to="/">Go to home</Link>
       </div>
     );
   }
@@ -108,4 +99,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InsertPost);
+)(PostEditor);

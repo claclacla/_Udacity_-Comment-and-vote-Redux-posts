@@ -7,6 +7,7 @@ import { getAsyncCategories } from '../actions/categories';
 import Home from './Home';
 import PostCategory from './PostCategory';
 import PostDetail from './PostDetail';
+import PostEditor from './PostEditor';
 import '../App.css';
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
         <Route exact path="/" component={Home}></Route>
         <Route path="/category/:categoryName" component={PostCategory}></Route>
         <Route path="/post/:postId" component={PostDetail}></Route>
+        <Route path="/post-editor/:postId?" component={PostEditor}></Route>
       </div>
     );
   }
