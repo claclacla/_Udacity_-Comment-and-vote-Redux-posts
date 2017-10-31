@@ -4,6 +4,7 @@ var postRESTRepository = new PostRESTRepository();
 
 export const GET_POSTS = "GET_POSTS";
 export const ADD_POST = "ADD_POST";
+export const GET_POST = "GET_POST";
 
 export function getPosts({ posts }) {
   return {
@@ -15,6 +16,13 @@ export function getPosts({ posts }) {
 export function addPost(post) {
   return {
     type: ADD_POST,
+    post
+  }
+}
+
+export function getPost(post) {
+  return {
+    type: GET_POST,
     post
   }
 }
@@ -31,6 +39,14 @@ export function addAsyncPost(post) {
   return function (dispatch) {
     postRESTRepository.add(post).then((resPost) => {
       dispatch(addPost(resPost));
+    })
+  }
+}
+
+export function getAsyncPost(id) {
+  return function (dispatch) {
+    postRESTRepository.getById(id).then((post) => {
+      dispatch(getPost(post));
     })
   }
 }
