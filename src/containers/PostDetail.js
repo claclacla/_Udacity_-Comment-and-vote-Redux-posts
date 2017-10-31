@@ -41,6 +41,7 @@ class PostDetail extends React.Component {
         <h1>Post detail</h1>
 
         <div><b>Date</b> {timestampString}</div>
+        <div><b>Vote score</b> {post.voteScore}</div>
         <div><b>Title</b> {post.title}</div>
         <div><b>Author</b> {post.author}</div>
         <div><b>Category</b> {post.category}</div>
