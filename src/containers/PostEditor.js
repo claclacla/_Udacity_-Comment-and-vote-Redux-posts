@@ -10,7 +10,8 @@ class PostEditor extends React.Component {
     super(props);
 
     this.state = {
-      title: ""
+      title: "",
+      author: ""
     }
   }
 

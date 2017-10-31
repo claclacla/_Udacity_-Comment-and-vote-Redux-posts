@@ -1,4 +1,4 @@
-import { GET_POSTS, ADD_POST, GET_POST } from '../actions/posts';
+import { GET_POSTS, ADD_POST, GET_POST, DELETE_POST } from '../actions/posts';
 
 function posts(state = {}, action) {
   switch (action.type) {
@@ -15,6 +15,11 @@ function posts(state = {}, action) {
       return Object.assign({}, state, {
         [action.post.id]: action.post
       });  
+    case DELETE_POST:
+      let posts = Object.assign({}, state);
+      delete posts[action.id];
+
+      return posts;  
     default:
       return state;
   }

@@ -21,6 +21,13 @@ class PostRESTRepository extends IRESTRepository {
   getById(id) {
     return fetch(`${this.address}/posts/` + id, { headers: this.headers }).then(res => res.json())
   }
+
+  remove(id) {
+    return fetch(`${this.address}/posts/` + id, {
+      method: 'DELETE',
+      headers: this.headers
+    }).then(res => res.json());
+  }
 }
 
 export default PostRESTRepository

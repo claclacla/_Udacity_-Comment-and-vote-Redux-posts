@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getAsyncPost } from '../actions/posts';
+import { getAsyncPost, deleteAsyncPost } from '../actions/posts';
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -10,6 +10,11 @@ class PostDetail extends React.Component {
 
     this.postId = this.props.match.params.postId;
     this.props.getPost(this.postId);
+  }
+
+  deletePost() {
+    this.props.deletePost(this.postId);
+    this.props.history.push("/");
   }
 
   render() {
@@ -40,9 +45,9 @@ class PostDetail extends React.Component {
       <div>
         <h1>Post detail</h1>
         <div>
-          <span>Edit</span>
+          <button>Edit</button>
           &nbsp;
-          <span>Delete</span>
+          <button onClick={() => this.deletePost()}>Delete</button>
         </div>
         <br />
 
@@ -71,7 +76,8 @@ function mapStateToProps({ posts }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPost: (id) => dispatch(getAsyncPost(id))
+    getPost: (id) => dispatch(getAsyncPost(id)),
+    deletePost: (id) => dispatch(deleteAsyncPost(id)) 
   }
 }
 
