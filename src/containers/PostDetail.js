@@ -10,19 +10,21 @@ class PostDetail extends React.Component {
 
     this.postId = this.props.match.params.postId;
     this.props.getPost(this.postId);
+
+    this.state = {
+      post: {}
+    }
   }
 
-  deletePost() {
-    this.props.deletePost(this.postId);
-    this.props.history.push("/");
-  }
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.posts) {
+      return;
+    }
 
-  render() {
-    let post = {};
-    let timestampString = "";
+    let posts = nextProps.posts;
 
-    if (this.props.posts && this.props.posts[this.postId]) {
-      post = this.props.posts[this.postId];
+    if (posts && posts[this.postId]) {
+      let post = posts[this.postId];
 
       let getTimeDataString = function (timeData) {
         let timeDataString = timeData.toString();
@@ -34,24 +36,37 @@ class PostDetail extends React.Component {
       };
 
       let timestamp = new Date(post.timestamp);
-      timestampString = getTimeDataString(timestamp.getHours());
+      let timestampString = getTimeDataString(timestamp.getHours());
       timestampString += ":" + getTimeDataString(timestamp.getMinutes());
       timestampString += " " + getTimeDataString(timestamp.getDate());
       timestampString += "/" + getTimeDataString(timestamp.getMonth());
       timestampString += "/" + timestamp.getFullYear();
+
+      post.timestamp = timestampString;
+
+      this.setState({ post });
     }
+  }
+
+  deletePost() {
+    this.props.deletePost(this.postId);
+    this.props.history.push("/");
+  }
+
+  render() {
+    const { post } = this.state;
 
     return (
       <div>
         <h1>Post detail</h1>
         <div>
-          <button>Edit</button>
+          <Link to={"/post-editor/" + this.postId}>Edit</Link>
           &nbsp;
           <button onClick={() => this.deletePost()}>Delete</button>
         </div>
         <br />
 
-        <div><b>Date</b> {timestampString}</div>
+        <div><b>Date</b> {post.timestamp}</div>
         <div><b>Vote score</b> {post.voteScore}</div>
         <div><b>Title</b> {post.title}</div>
         <div><b>Author</b> {post.author}</div>
@@ -77,7 +92,7 @@ function mapStateToProps({ posts }) {
 function mapDispatchToProps(dispatch) {
   return {
     getPost: (id) => dispatch(getAsyncPost(id)),
-    deletePost: (id) => dispatch(deleteAsyncPost(id)) 
+    deletePost: (id) => dispatch(deleteAsyncPost(id))
   }
 }
 
