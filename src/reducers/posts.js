@@ -1,4 +1,4 @@
-import { GET_POSTS, ADD_POST, GET_POST, DELETE_POST } from '../actions/posts';
+import { GET_POSTS, ADD_POST, UPDATE_POST, GET_POST, DELETE_POST } from '../actions/posts';
 
 function posts(state = {}, action) {
   switch (action.type) {
@@ -8,6 +8,10 @@ function posts(state = {}, action) {
         return hash;
       }, {}));
     case ADD_POST:
+      return Object.assign({}, state, {
+        [action.post.id]: action.post
+      });
+    case UPDATE_POST:
       return Object.assign({}, state, {
         [action.post.id]: action.post
       });

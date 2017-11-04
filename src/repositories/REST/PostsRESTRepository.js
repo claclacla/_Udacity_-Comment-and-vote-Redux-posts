@@ -18,6 +18,18 @@ class PostRESTRepository extends IRESTRepository {
       .then(res => res.json());
   }
 
+  update(id, post) {
+    return fetch(`${this.address}/posts/` + id, {
+      method: 'PUT',
+      headers: {
+        ...this.headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(post)
+    })
+      .then(res => res.json());
+  }
+
   getById(id) {
     return fetch(`${this.address}/posts/` + id, { headers: this.headers }).then(res => res.json())
   }

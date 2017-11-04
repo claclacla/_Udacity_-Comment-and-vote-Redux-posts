@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Post from '../dtos/Post'
-import { getAsyncPost, addAsyncPost } from '../actions/posts';
+import { getAsyncPost, addAsyncPost, updateAsyncPost } from '../actions/posts';
 
 const INSERT = "insert";
 const UPDATE = "update";
@@ -42,37 +42,51 @@ class PostEditor extends React.Component {
   }
 
   updateTitle = (title) => {
-    this.setState({ title });
+    this.setState((prevState, props) => {
+      return { post: Object.assign({}, prevState.post, { title }) };
+    });
   }
 
   updateAuthor = (author) => {
-    this.setState({ author });
+    this.setState((prevState, props) => {
+      return { post: Object.assign({}, prevState.post, { author }) };
+    });
   }
 
   updateCategory = (category) => {
-    this.setState({ category });
+    this.setState((prevState, props) => {
+      return { post: Object.assign({}, prevState.post, { category }) };
+    });
   }
 
   updateBody = (body) => {
-    this.setState({ body });
+    this.setState((prevState, props) => {
+      return { post: Object.assign({}, prevState.post, { body }) };
+    });
   }
 
   savePost = () => {
-    var post = new Post(this.state.post.title);
+    if (this.state.view === INSERT) {
+      var post = new Post(this.state.post.title);
 
-    if (this.state.post.author) {
-      post.author = this.state.post.author;
+      if (this.state.post.author) {
+        post.author = this.state.post.author;
+      }
+
+      if (this.state.post.category) {
+        post.category = this.state.post.category;
+      }
+
+      if (this.state.post.body) {
+        post.body = this.state.post.body;
+      }
+
+      this.props.addPost(post);
+      this.setState({ view: UPDATE });
     }
-
-    if (this.state.post.category) {
-      post.category = this.state.post.category;
+    else {
+      this.props.updatePost(this.state.post);
     }
-
-    if (this.state.post.body) {
-      post.body = this.state.post.body;
-    }
-
-    this.props.addPost(post);
   }
 
   handleSubmit = (event) => {
@@ -124,7 +138,8 @@ function mapStateToProps({ categories, posts }) {
 function mapDispatchToProps(dispatch) {
   return {
     getPost: (id) => dispatch(getAsyncPost(id)),
-    addPost: (data) => dispatch(addAsyncPost(data))
+    addPost: (post) => dispatch(addAsyncPost(post)),
+    updatePost: (post) => dispatch(updateAsyncPost(post))
   }
 }
 
