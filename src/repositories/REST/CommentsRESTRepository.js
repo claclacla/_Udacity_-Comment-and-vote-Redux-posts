@@ -4,11 +4,10 @@ class CommentsRESTRepository extends IRESTRepository {
   get(postId) {
     return fetch(`${this.address}/posts/` + postId + `/comments`, { headers: this.headers })
       .then(res => res.json())
-      .then(data => { console.log(data.comments); return data.comments});
+      .then(comments => comments);
   }
 
   add(comment) {
-    console.log(comment);
     return fetch(`${this.address}/comments`, {
       method: 'POST',
       headers: {
@@ -17,7 +16,7 @@ class CommentsRESTRepository extends IRESTRepository {
       },
       body: JSON.stringify(comment)
     })
-      .then(res => res.json());
+      .then(res => { console.log(res); return res.json() });
   }
 }
 

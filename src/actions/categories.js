@@ -1,5 +1,7 @@
 import CategoriesRESTRepository from '../repositories/REST/CategoriesRESTRepository';
 
+var categoriesRESTRepository = new CategoriesRESTRepository();
+
 export const GET_CATEGORIES = "GET_CATEGORIES";
 
 export function getCategories({ categories }) {
@@ -11,7 +13,6 @@ export function getCategories({ categories }) {
 
 export function getAsyncCategories() {
   return function (dispatch) {
-    var categoriesRESTRepository = new CategoriesRESTRepository();
     categoriesRESTRepository.get().then(categories => {
       dispatch(getCategories({ categories }));
     });
