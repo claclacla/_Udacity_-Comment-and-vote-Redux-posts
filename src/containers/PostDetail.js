@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import CommentsList from '../components/CommentsList';
 import CommentEditor from '../components/CommentEditor';
 import { getAsyncPost, deleteAsyncPost } from '../actions/posts';
-import { getAsyncComments } from '../actions/comments';
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -12,7 +12,6 @@ class PostDetail extends React.Component {
 
     this.postId = this.props.match.params.postId;
     this.props.getPost(this.postId);
-    this.props.getComments(this.postId);
 
     this.state = {
       post: {}
@@ -47,16 +46,6 @@ class PostDetail extends React.Component {
         this.setState({ post });
       }
     }
-
-    if (nextProps.comments) {
-      let comments = [];
-
-      if (nextProps.comments[this.postId] !== undefined) {
-        comments = nextProps.comments[this.postId];
-
-        this.setState({ comments });
-      }
-    }
   }
 
   deletePost() {
@@ -65,7 +54,7 @@ class PostDetail extends React.Component {
   }
 
   render() {
-    const { post, comments } = this.state;
+    const { post } = this.state;
 
     return (
       <div>
@@ -89,13 +78,7 @@ class PostDetail extends React.Component {
         </div>
 
         <div>
-          <b>Comments</b>
-          <br />
-          <ul className="comments-list">
-          {comments && comments.map((comment, idx) => (
-            <li className="comment" key={idx}>{comment.body}</li>
-          ))}
-          </ul>
+          <CommentsList postId={this.postId}/>
           <br />
           <CommentEditor postId={this.postId}/>
         </div>
@@ -106,18 +89,16 @@ class PostDetail extends React.Component {
   }
 }
 
-function mapStateToProps({ posts, comments }) {
+function mapStateToProps({ posts }) {
   return {
-    posts,
-    comments
+    posts
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getPost: (id) => dispatch(getAsyncPost(id)),
-    deletePost: (id) => dispatch(deleteAsyncPost(id)),
-    getComments: (id) => dispatch(getAsyncComments(id))
+    deletePost: (id) => dispatch(deleteAsyncPost(id))
   }
 }
 
