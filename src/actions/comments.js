@@ -4,6 +4,7 @@ var commentsRESTRepository = new CommentsRESTRepository();
 
 export const GET_COMMENTS = "GET_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";
 
 export function getComments({ postId, comments }) {
   return {
@@ -13,10 +14,18 @@ export function getComments({ postId, comments }) {
   }
 }
 
-export function addComment({ postId, comment }) {
+export function addComment({ comment }) {
   return {
     type: ADD_COMMENT,
     comment
+  }
+}
+
+export function deleteComment({ postId, id }) {
+  return {
+    type: DELETE_COMMENT,
+    postId,
+    id
   }
 }
 
@@ -32,6 +41,14 @@ export function addAsyncComment(comment) {
   return function (dispatch) {
     commentsRESTRepository.add(comment).then(comment => {
       dispatch(addComment({ comment }));
+    });
+  }
+}
+
+export function deleteAsyncComment(postId, id) {
+  return function (dispatch) {
+    commentsRESTRepository.remove(id).then((res) => {
+      dispatch(deleteComment({ postId, id }));
     });
   }
 }

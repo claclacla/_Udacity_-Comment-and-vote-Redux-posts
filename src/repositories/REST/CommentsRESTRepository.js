@@ -16,7 +16,14 @@ class CommentsRESTRepository extends IRESTRepository {
       },
       body: JSON.stringify(comment)
     })
-      .then(res => { console.log(res); return res.json() });
+      .then(res => res.json());
+  }
+
+  remove(id) {
+    return fetch(`${this.address}/comments/` + id, {
+      method: 'DELETE',
+      headers: this.headers
+    }).then(res => res.json());
   }
 }
 

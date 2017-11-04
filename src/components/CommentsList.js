@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getAsyncComments } from '../actions/comments'
+import { getAsyncComments, deleteAsyncComment } from '../actions/comments'
 
 class CommentsList extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class CommentsList extends React.Component {
         <br />
         <ul className="comments-list">
           {comments && comments.map((comment, idx) => (
-            <li className="comment" key={idx}>{comment.body}</li>
+            <li className="comment" key={idx}>{comment.author}: {comment.body} <button onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button></li>
           ))}
         </ul>
       </div>
@@ -56,7 +56,8 @@ function mapStateToProps({ comments }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getComments: (id) => dispatch(getAsyncComments(id))
+    getComments: (postId) => dispatch(getAsyncComments(postId)),
+    deleteComment: (postId, id) => dispatch(deleteAsyncComment(postId, id))
   }
 }
 
