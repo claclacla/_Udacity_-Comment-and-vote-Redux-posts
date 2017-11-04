@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import CommentEditor from '../components/CommentEditor';
 import { getAsyncPost, deleteAsyncPost } from '../actions/posts';
+import { getAsyncComments } from '../actions/comments';
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class PostDetail extends React.Component {
 
     this.postId = this.props.match.params.postId;
     this.props.getPost(this.postId);
+    this.props.getComments(this.postId);
 
     this.state = {
       post: {}
@@ -17,34 +20,42 @@ class PostDetail extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.posts) {
-      return;
+    if (nextProps.posts) {
+      let posts = nextProps.posts;
+
+      if (posts && posts[this.postId]) {
+        let post = Object.assign({}, posts[this.postId]);
+
+        let getTimeDataString = function (timeData) {
+          let timeDataString = timeData.toString();
+
+          if (timeDataString.length === 1) {
+            timeDataString = "0" + timeDataString;
+          }
+          return timeDataString;
+        };
+
+        let timestamp = new Date(post.timestamp);
+        let timestampString = getTimeDataString(timestamp.getHours());
+        timestampString += ":" + getTimeDataString(timestamp.getMinutes());
+        timestampString += " " + getTimeDataString(timestamp.getDate());
+        timestampString += "/" + getTimeDataString(timestamp.getMonth());
+        timestampString += "/" + timestamp.getFullYear();
+
+        post.timestamp = timestampString;
+
+        this.setState({ post });
+      }
     }
 
-    let posts = nextProps.posts;
+    if (nextProps.comments) {
+      let comments = [];
 
-    if (posts && posts[this.postId]) {
-      let post = posts[this.postId];
+      if (nextProps.comments[this.postId] !== undefined) {
+        comments = nextProps.comments[this.postId];
 
-      let getTimeDataString = function (timeData) {
-        let timeDataString = timeData.toString();
-
-        if (timeDataString.length === 1) {
-          timeDataString = "0" + timeDataString;
-        }
-        return timeDataString;
-      };
-
-      let timestamp = new Date(post.timestamp);
-      let timestampString = getTimeDataString(timestamp.getHours());
-      timestampString += ":" + getTimeDataString(timestamp.getMinutes());
-      timestampString += " " + getTimeDataString(timestamp.getDate());
-      timestampString += "/" + getTimeDataString(timestamp.getMonth());
-      timestampString += "/" + timestamp.getFullYear();
-
-      post.timestamp = timestampString;
-
-      this.setState({ post });
+        this.setState({ comments });
+      }
     }
   }
 
@@ -54,7 +65,7 @@ class PostDetail extends React.Component {
   }
 
   render() {
-    const { post } = this.state;
+    const { post, comments } = this.state;
 
     return (
       <div>
@@ -77,22 +88,36 @@ class PostDetail extends React.Component {
           {post.body}
         </div>
 
+        <div>
+          <b>Comments</b>
+          <br />
+          <ul className="comments-list">
+          {comments && comments.map((comment, idx) => (
+            <li className="comment" key={idx}>{comment.body}</li>
+          ))}
+          </ul>
+          <br />
+          <CommentEditor postId={this.postId}/>
+        </div>
+
         <Link to="/">Go to home</Link>
       </div>
     );
   }
 }
 
-function mapStateToProps({ posts }) {
+function mapStateToProps({ posts, comments }) {
   return {
-    posts
+    posts,
+    comments
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getPost: (id) => dispatch(getAsyncPost(id)),
-    deletePost: (id) => dispatch(deleteAsyncPost(id))
+    deletePost: (id) => dispatch(deleteAsyncPost(id)),
+    getComments: (id) => dispatch(getAsyncComments(id))
   }
 }
 

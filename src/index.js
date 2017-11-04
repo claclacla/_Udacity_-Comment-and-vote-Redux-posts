@@ -10,10 +10,11 @@ import thunk from 'redux-thunk';
 
 import categories from './reducers/categories';
 import posts from './reducers/posts';
+import comments from './reducers/comments';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(combineReducers({ categories, posts }), composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(combineReducers({ categories, posts, comments }), composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(<BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();

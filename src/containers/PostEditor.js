@@ -119,7 +119,7 @@ class PostEditor extends React.Component {
           Body<br />
           <textarea value={this.state.post.body} onChange={(event) => this.updateBody(event.target.value)} />
           <br />
-          <button onClick={this.savePost}>Add</button>
+          <button onClick={this.savePost}>Save</button>
         </form>
 
         <Link to="/">Go to home</Link>
