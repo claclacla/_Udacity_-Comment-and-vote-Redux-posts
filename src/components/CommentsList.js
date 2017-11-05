@@ -31,8 +31,47 @@ class CommentsList extends React.Component {
     }
   }
 
+  updateBody = (idx, body) => {
+    this.setState((prevState, props) => {
+      let currentComment = prevState.comments[idx];
+      currentComment.body = body;
+      return { comments: prevState.comments };
+    });
+  }
+
+  editComment(idx) {
+    let comment = document.getElementsByClassName("comment")[idx];
+
+    let commentBody = comment.getElementsByClassName("body")[0];
+    commentBody.style.display = "none";
+    let editableBody = comment.getElementsByClassName("editable-body")[0];
+    editableBody.style.display = "block";
+    let editComment = comment.getElementsByClassName("edit-comment")[0];
+    editComment.style.display = "none";
+    let deleteComment = comment.getElementsByClassName("delete-comment")[0];
+    deleteComment.style.display = "none";
+    let cancelCommentEdit = comment.getElementsByClassName("cancel-comment-edit")[0];
+    cancelCommentEdit.style.display = "block";
+  }
+
+  cancelCommentEdit(idx) {
+    let comment = document.getElementsByClassName("comment")[idx];
+
+    let commentBody = comment.getElementsByClassName("body")[0];
+    commentBody.style.display = "block";
+    let editableBody = comment.getElementsByClassName("editable-body")[0];
+    editableBody.style.display = "none";
+    let editComment = comment.getElementsByClassName("edit-comment")[0];
+    editComment.style.display = "inline";
+    let deleteComment = comment.getElementsByClassName("delete-comment")[0];
+    deleteComment.style.display = "inline";
+    let cancelCommentEdit = comment.getElementsByClassName("cancel-comment-edit")[0];
+    cancelCommentEdit.style.display = "none";
+  }
+
   render() {
     const { comments } = this.state;
+    const displayNone = {display: "none"};
 
     return (
       <div>
@@ -40,7 +79,18 @@ class CommentsList extends React.Component {
         <br />
         <ul className="comments-list">
           {comments && comments.map((comment, idx) => (
-            <li className="comment" key={idx}>{comment.author}: {comment.body} <button onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button></li>
+            <li className="comment" key={idx}>
+              Name: {comment.author}
+              <div>Comment:
+                <span className="body">{comment.body}</span>
+                <div className="editable-body" style={displayNone}>
+                  <textarea value={this.state.comments[idx].body} onChange={(event) => this.updateBody(idx, event.target.value)} />
+                </div>
+              </div>
+              <button className="edit-comment" onClick={() => this.editComment(idx)}>Edit</button>
+              <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button>
+              <button className="cancel-comment-edit" style={displayNone} onClick={() => this.cancelCommentEdit(idx)}>Cancel</button>
+            </li>
           ))}
         </ul>
       </div>
