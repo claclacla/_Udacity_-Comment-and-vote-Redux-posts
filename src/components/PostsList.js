@@ -3,20 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { sortByField } from '../lib/sort';
 import { getAsyncPosts } from '../actions/posts';
 
 const SORT_BY_VOTE_SCORE = "voteScore";
 const SORT_BY_TIMESTAMP = "timestamp";
-
-function sortPosts(posts, field) {
-  if (!posts) {
-    return posts;
-  }
-
-  posts = posts.sort((a, b) => a[field] < b[field]);
-
-  return posts;
-}
 
 class PostsList extends React.Component {
   constructor(props) {
@@ -36,14 +27,14 @@ class PostsList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.posts) {
-      this.setState({ posts: sortPosts(Object.values(nextProps.posts), SORT_BY_VOTE_SCORE) });
+      this.setState({ posts: sortByField(Object.values(nextProps.posts), SORT_BY_VOTE_SCORE) });
     }
   }
 
   updateSort(field) {
     this.setState({
       postsSort: field,
-      posts: sortPosts(this.state.posts, field)
+      posts: sortByField(this.state.posts, field)
     });
   }
 

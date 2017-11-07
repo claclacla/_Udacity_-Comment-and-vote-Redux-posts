@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { sortByField } from '../lib/sort';
 import { updateAsyncComment, getAsyncComments, deleteAsyncComment } from '../actions/comments'
+
+const SORT_BY_VOTE_SCORE = "voteScore";
 
 class CommentsList extends React.Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class CommentsList extends React.Component {
       let comments = [];
 
       if (nextProps.comments[this.props.postId] !== undefined) {
-        comments = nextProps.comments[this.props.postId];
+        comments = sortByField(nextProps.comments[this.props.postId], SORT_BY_VOTE_SCORE);
 
         this.setState({ comments });
       }
@@ -89,7 +92,7 @@ class CommentsList extends React.Component {
         <ul className="comments-list">
           {comments && comments.map((comment, idx) => (
             <li className="comment" key={idx}>
-              Name: {comment.author}
+              Name: {comment.author} score: {comment.voteScore} 
               <div>Comment:
                 <span className="body">{comment.body}</span>
                 <div className="editable-body" style={displayNone}>
