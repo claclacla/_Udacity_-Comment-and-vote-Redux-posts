@@ -7,6 +7,7 @@ export const ADD_POST = "ADD_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const GET_POST = "GET_POST";
 export const DELETE_POST = "DELETE_POST";
+export const VOTE_POST = "VOTE_POST";
 
 export function getPosts({ posts }) {
   return {
@@ -40,6 +41,14 @@ export function deletePost(id) {
   return {
     type: DELETE_POST,
     id
+  }
+}
+
+export function updatePostVote(id, vote) {
+  return {
+    type: VOTE_POST,
+    id, 
+    vote
   }
 }
 
@@ -79,6 +88,14 @@ export function deleteAsyncPost(id) {
   return function (dispatch) {
     postsRESTRepository.remove(id).then(() => {
       dispatch(deletePost(id));
+    })
+  }
+}
+
+export function updateAsyncPostVote(id, vote) {
+  return function (dispatch) {
+    postsRESTRepository.vote(id, {option: vote}).then(() => {
+      dispatch(updatePostVote(id, vote));
     })
   }
 }

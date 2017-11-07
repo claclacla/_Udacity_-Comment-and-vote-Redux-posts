@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { UP_VOTE, DOWN_VOTE } from '../data';
 import { sortByField } from '../lib/sort';
-import { getAsyncPosts } from '../actions/posts';
+import { getAsyncPosts, updateAsyncPostVote } from '../actions/posts';
 
 const SORT_BY_VOTE_SCORE = "voteScore";
 const SORT_BY_TIMESTAMP = "timestamp";
@@ -58,13 +59,17 @@ class PostsList extends React.Component {
         <ul className="posts-list">
           {posts.map((post, idx) => {
             let commentsNumber = 0;
-            
-            if(this.props.comments[post.id]) {
+
+            if (this.props.comments[post.id]) {
               commentsNumber = this.props.comments[post.id].length;
             }
 
             return (
-              <li key={idx}><Link to={"/post/" + post.id}>{post.title}</Link> (score: {post.voteScore}) (comments: {commentsNumber})</li>
+              <li key={idx}>
+                <Link to={"/post/" + post.id}>{post.title}</Link>
+                (score: {post.voteScore}) (comments: {commentsNumber})
+                <button onClick={() => this.props.votePost(post.id, UP_VOTE)}>up</button> <button onClick={() => this.props.votePost(post.id, DOWN_VOTE)}>down</button>
+              </li>
             )
           })}
         </ul>
@@ -82,6 +87,7 @@ function mapStateToProps({ posts, comments }) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    votePost: (id, vote) => dispatch(updateAsyncPostVote(id, vote)),
     getPosts: () => dispatch(getAsyncPosts())
   }
 }
