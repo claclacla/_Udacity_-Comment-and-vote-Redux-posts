@@ -5,6 +5,16 @@ import PropTypes from 'prop-types';
 
 import { getAsyncPosts } from '../actions/posts';
 
+function sortPosts(posts, field) {
+  if(!posts) {
+    return posts;
+  }
+
+  posts = posts.sort((a, b) => a[field] < b[field]);
+
+  return posts;
+}
+
 class PostsList extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +30,7 @@ class PostsList extends React.Component {
     let posts = [];
 
     if(this.props.posts) {
-      posts = Object.values(this.props.posts);
+      posts = this.props.posts;
 
       if(this.props.category) {
         posts = posts.filter(post => post.category === this.props.category);
@@ -30,7 +40,7 @@ class PostsList extends React.Component {
     return (
       <ul className="posts-list">
         {posts.map((post, idx) => (
-          <li key={idx}><Link to={"/post/" + post.id}>{post.title}</Link></li>
+          <li key={idx}><Link to={"/post/" + post.id}>{post.title} (score: {post.voteScore})</Link></li>
         ))}
       </ul>
     );
@@ -39,7 +49,7 @@ class PostsList extends React.Component {
 
 function mapStateToProps({ posts }) {
   return {
-    posts
+    posts: sortPosts(Object.values(posts), "voteScore")
   }
 }
 
