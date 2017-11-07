@@ -1,4 +1,4 @@
-import { GET_COMMENTS, ADD_COMMENT, DELETE_COMMENT } from '../actions/comments';
+import { GET_COMMENTS, ADD_COMMENT, UPDATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
 
 function comments(state = {}, action) {
   let postComments = null;
@@ -17,6 +17,15 @@ function comments(state = {}, action) {
 
       return Object.assign({}, state, {
         [action.comment.parentId]: postComments.concat(action.comment)
+      });
+    case UPDATE_COMMENT:
+      postComments = [].concat(state[action.comment.parentId]);
+      let commentIdx = postComments.findIndex(postComment => postComment.id === action.comment.id);
+
+      postComments[commentIdx] = action.comment;
+
+      return Object.assign({}, state, {
+        [action.comment.parentId]: postComments
       });
     case DELETE_COMMENT:
       postComments = state[action.postId];

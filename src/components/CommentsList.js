@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getAsyncComments, deleteAsyncComment } from '../actions/comments'
+import { updateAsyncComment, getAsyncComments, deleteAsyncComment } from '../actions/comments'
 
 class CommentsList extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class CommentsList extends React.Component {
     cancelCommentEdit.style.display = "inline";
   }
 
-  cancelCommentEdit(idx) {
+  closeCommentEdit(idx) {
     let comment = document.getElementsByClassName("comment")[idx];
 
     let commentBody = comment.getElementsByClassName("body")[0];
@@ -71,6 +71,11 @@ class CommentsList extends React.Component {
     saveComment.style.display = "none";
     let cancelCommentEdit = comment.getElementsByClassName("cancel-comment-edit")[0];
     cancelCommentEdit.style.display = "none";
+  }
+
+  saveComment(idx) {
+    this.props.updateComment(this.state.comments[idx]);
+    this.closeCommentEdit(idx);
   }
 
   render() {
@@ -94,7 +99,7 @@ class CommentsList extends React.Component {
               <button className="edit-comment" onClick={() => this.editComment(idx)}>Edit</button>
               <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button>
               <button className="save-comment" style={displayNone} onClick={() => this.saveComment(idx)}>Save</button>
-              <button className="cancel-comment-edit" style={displayNone} onClick={() => this.cancelCommentEdit(idx)}>Cancel</button>
+              <button className="cancel-comment-edit" style={displayNone} onClick={() => this.closeCommentEdit(idx)}>Cancel</button>
             </li>
           ))}
         </ul>
@@ -112,6 +117,7 @@ function mapStateToProps({ comments }) {
 function mapDispatchToProps(dispatch) {
   return {
     getComments: (postId) => dispatch(getAsyncComments(postId)),
+    updateComment: (comment) => dispatch(updateAsyncComment(comment)),
     deleteComment: (postId, id) => dispatch(deleteAsyncComment(postId, id))
   }
 }
