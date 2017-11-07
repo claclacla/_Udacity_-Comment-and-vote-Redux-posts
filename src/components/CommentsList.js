@@ -50,8 +50,10 @@ class CommentsList extends React.Component {
     editComment.style.display = "none";
     let deleteComment = comment.getElementsByClassName("delete-comment")[0];
     deleteComment.style.display = "none";
+    let saveComment = comment.getElementsByClassName("save-comment")[0];
+    saveComment.style.display = "inline";
     let cancelCommentEdit = comment.getElementsByClassName("cancel-comment-edit")[0];
-    cancelCommentEdit.style.display = "block";
+    cancelCommentEdit.style.display = "inline";
   }
 
   cancelCommentEdit(idx) {
@@ -65,6 +67,8 @@ class CommentsList extends React.Component {
     editComment.style.display = "inline";
     let deleteComment = comment.getElementsByClassName("delete-comment")[0];
     deleteComment.style.display = "inline";
+    let saveComment = comment.getElementsByClassName("save-comment")[0];
+    saveComment.style.display = "none";
     let cancelCommentEdit = comment.getElementsByClassName("cancel-comment-edit")[0];
     cancelCommentEdit.style.display = "none";
   }
@@ -89,6 +93,7 @@ class CommentsList extends React.Component {
               </div>
               <button className="edit-comment" onClick={() => this.editComment(idx)}>Edit</button>
               <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button>
+              <button className="save-comment" style={displayNone} onClick={() => this.saveComment(idx)}>Save</button>
               <button className="cancel-comment-edit" style={displayNone} onClick={() => this.cancelCommentEdit(idx)}>Cancel</button>
             </li>
           ))}
