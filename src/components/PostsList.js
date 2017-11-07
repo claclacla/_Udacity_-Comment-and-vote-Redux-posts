@@ -56,18 +56,27 @@ class PostsList extends React.Component {
           <option value={SORT_BY_TIMESTAMP}>{SORT_BY_TIMESTAMP}</option>
         </select>
         <ul className="posts-list">
-          {posts.map((post, idx) => (
-            <li key={idx}><Link to={"/post/" + post.id}>{post.title} (score: {post.voteScore})</Link></li>
-          ))}
+          {posts.map((post, idx) => {
+            let commentsNumber = 0;
+            
+            if(this.props.comments[post.id]) {
+              commentsNumber = this.props.comments[post.id].length;
+            }
+
+            return (
+              <li key={idx}><Link to={"/post/" + post.id}>{post.title}</Link> (score: {post.voteScore}) (comments: {commentsNumber})</li>
+            )
+          })}
         </ul>
       </div>
     );
   }
 }
 
-function mapStateToProps({ posts }) {
+function mapStateToProps({ posts, comments }) {
   return {
-    posts
+    posts,
+    comments
   }
 }
 
