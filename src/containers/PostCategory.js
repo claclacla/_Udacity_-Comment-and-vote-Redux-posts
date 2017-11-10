@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 
 import PostsList from '../components/PostsList';
 
@@ -13,13 +13,15 @@ class PostCategory extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>{this.categoryName}</h1>
-        <PostsList category={this.categoryName} />
-        <Link to="/post-editor">Add a new post</Link>
-        <br />
-        <Link to="/">Go to home</Link>
-      </div>
+      <Grid>
+        <Row>
+          <Col md={12}>
+            <PageHeader>{this.categoryName}</PageHeader>
+            <PostsList category={this.categoryName} />
+            <Button bsStyle="primary" href="/post-editor">Add a new post</Button>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
