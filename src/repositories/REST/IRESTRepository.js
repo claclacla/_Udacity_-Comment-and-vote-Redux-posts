@@ -5,6 +5,7 @@ class IRESTRepository extends IRepository {
     super();
     
     let token = Math.random().toString(36).substr(-8);
+    console.log(token);
 
     this.address = "http://localhost:3001";
     this.headers = {

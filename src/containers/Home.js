@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'; 
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import PostsList from '../components/PostsList';
 
@@ -11,7 +12,7 @@ class Home extends React.Component {
         <Row>
           <Col md={12}>
             <PostsList />
-            <Button bsStyle="primary" href="/post-editor">Add a new post</Button>
+            <Link to="/post-editor">Add a new post</Link>
           </Col>
         </Row>
       </Grid>

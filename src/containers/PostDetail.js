@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Grid, Row, Col, PageHeader, Table, Button } from 'react-bootstrap';
 
 import CommentsList from '../components/CommentsList';
@@ -89,16 +90,18 @@ class PostDetail extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                  <b>Body</b>
-                  <br /><br />
-                  {post.body}
+                    <b>Body</b>
+                    <br /><br />
+                    {post.body}
                   </td>
                 </tr>
               </tbody>
             </Table>
           </Col>
           <Col md={2}>
-            <Button bsStyle="primary" href={"/post-editor/" + this.postId}>Edit</Button>
+            <LinkContainer to={"/post-editor/" + this.postId}>
+              <Button bsStyle="primary">Edit</Button>
+            </LinkContainer>
             &nbsp;
             <Button bsStyle="danger" onClick={() => this.deletePost()}>Delete</Button>
           </Col>
