@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button, ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 
 import Comment from '../dtos/Comment';
 import { addAsyncComment } from '../actions/comments';
@@ -49,14 +50,16 @@ class CommentEditor extends React.Component {
   render() {
     return (
       <div>
-        Add a new comment
-      <form onSubmit={this.handleSubmit}>
-          Author<br />
-          <input type="text" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.comment.author} />
+        <h3>Add a new comment</h3>
+        <form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <ControlLabel>Author</ControlLabel>
+            <FormControl type="text" placeholder="Author" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.comment.author} />
+          </FormGroup>
           Body<br />
-          <textarea value={this.state.comment.body} onChange={(event) => this.updateBody(event.target.value)} />
+          <FormControl componentClass="textarea" value={this.state.comment.body} onChange={(event) => this.updateBody(event.target.value)} />
           <br />
-          <button onClick={this.saveComment}>Save</button>
+          <Button bsStyle="primary" onClick={this.saveComment}>Save</Button>
         </form>
       </div>
     );

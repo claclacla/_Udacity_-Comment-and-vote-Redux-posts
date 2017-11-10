@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Table, Badge, Button, FormGroup, FormControl } from 'react-bootstrap';
 
 import { sortByField } from '../lib/sort';
 import { updateAsyncComment, getAsyncComments, deleteAsyncComment } from '../actions/comments'
@@ -83,29 +84,51 @@ class CommentsList extends React.Component {
 
   render() {
     const { comments } = this.state;
-    const displayNone = {display: "none"};
+    const displayNone = { display: "none" };
 
     return (
       <div>
-        <b>Comments</b>
+        <h3>Comments</h3>
         <br />
-        <ul className="comments-list">
-          {comments && comments.map((comment, idx) => (
-            <li className="comment" key={idx}>
-              Name: {comment.author} score: {comment.voteScore} 
-              <div>Comment:
-                <span className="body">{comment.body}</span>
-                <div className="editable-body" style={displayNone}>
-                  <textarea value={this.state.comments[idx].body} onChange={(event) => this.updateBody(idx, event.target.value)} />
-                </div>
-              </div>
-              <button className="edit-comment" onClick={() => this.editComment(idx)}>Edit</button>
-              <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button>
-              <button className="save-comment" style={displayNone} onClick={() => this.saveComment(idx)}>Save</button>
-              <button className="cancel-comment-edit" style={displayNone} onClick={() => this.closeCommentEdit(idx)}>Cancel</button>
-            </li>
-          ))}
-        </ul>
+        <Table hover striped>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th></th>
+              <th>Comment</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {comments && comments.map((comment, idx) => (
+              <tr className="comment" key={idx}>
+                <td>
+                  {comment.author}
+                </td>
+                <td>
+                  Score
+                  <Badge>{comment.voteScore}</Badge>
+                </td>
+                <td>
+                  <span className="body">{comment.body}</span>
+                  <div className="editable-body" style={displayNone}>
+                    <FormGroup controlId="formControlsTextarea">
+                      <FormControl componentClass="textarea" value={this.state.comments[idx].body} onChange={(event) => this.updateBody(idx, event.target.value)} />
+                    </FormGroup>
+                  </div>
+                </td>
+                <td>
+                  <Button className="edit-comment" bsStyle="primary" onClick={() => this.editComment(idx)}>Edit</Button>
+                  &nbsp;
+                  <Button className="delete-comment" bsStyle="danger" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</Button>
+                  <Button className="save-comment" bsStyle="primary" style={displayNone} onClick={() => this.saveComment(idx)}>Save</Button>
+                  &nbsp;
+                  <Button className="cancel-comment-edit" style={displayNone} onClick={() => this.closeCommentEdit(idx)}>Cancel</Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Grid, Row, Col, PageHeader, Table, Button } from 'react-bootstrap';
 
 import CommentsList from '../components/CommentsList';
 import CommentEditor from '../components/CommentEditor';
@@ -57,34 +57,59 @@ class PostDetail extends React.Component {
     const { post } = this.state;
 
     return (
-      <div>
-        <h1>Post detail</h1>
-        <div>
-          <Link to={"/post-editor/" + this.postId}>Edit</Link>
-          &nbsp;
-          <button onClick={() => this.deletePost()}>Delete</button>
-        </div>
-        <br />
-
-        <div><b>Date</b> {post.timestamp}</div>
-        <div><b>Vote score</b> {post.voteScore}</div>
-        <div><b>Title</b> {post.title}</div>
-        <div><b>Author</b> {post.author}</div>
-        <div><b>Category</b> {post.category}</div>
-        <div>
-          <b>Body</b>
-          <br /><br />
-          {post.body}
-        </div>
-
-        <div>
-          <CommentsList postId={this.postId}/>
-          <br />
-          <CommentEditor postId={this.postId}/>
-        </div>
-
-        <Link to="/">Go to home</Link>
-      </div>
+      <Grid>
+        <Row>
+          <Col md={12}>
+            <PageHeader>Post detail</PageHeader>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={10}>
+            <Table>
+              <tbody>
+                <tr>
+                  <td><b>Date</b></td>
+                  <td> {post.timestamp}</td>
+                </tr>
+                <tr>
+                  <td><b>Vote score</b></td>
+                  <td> {post.voteScore}</td>
+                </tr>
+                <tr>
+                  <td><b>Title</b></td>
+                  <td> {post.title}</td>
+                </tr>
+                <tr>
+                  <td><b>Author</b></td>
+                  <td> {post.author}</td>
+                </tr>
+                <tr>
+                  <td><b>Category</b></td>
+                  <td> {post.category}</td>
+                </tr>
+                <tr>
+                  <td>
+                  <b>Body</b>
+                  <br /><br />
+                  {post.body}
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+          <Col md={2}>
+            <Button bsStyle="primary" href={"/post-editor/" + this.postId}>Edit</Button>
+            &nbsp;
+            <Button bsStyle="danger" onClick={() => this.deletePost()}>Delete</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <CommentsList postId={this.postId} />
+            <CommentEditor postId={this.postId} />
+          </Col>
+        </Row>
+      </Grid >
     );
   }
 }
