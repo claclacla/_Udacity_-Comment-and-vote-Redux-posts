@@ -56,8 +56,10 @@ class CommentEditor extends React.Component {
             <ControlLabel>Author</ControlLabel>
             <FormControl type="text" placeholder="Author" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.comment.author} />
           </FormGroup>
-          Body<br />
-          <FormControl componentClass="textarea" value={this.state.comment.body} onChange={(event) => this.updateBody(event.target.value)} />
+          <FormGroup>
+            <ControlLabel>Body</ControlLabel>
+            <FormControl componentClass="textarea" value={this.state.comment.body} onChange={(event) => this.updateBody(event.target.value)} />
+          </FormGroup>
           <br />
           <Button bsStyle="primary" onClick={this.saveComment}>Save</Button>
         </form>

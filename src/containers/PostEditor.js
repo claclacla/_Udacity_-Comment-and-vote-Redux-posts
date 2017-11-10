@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Grid, Row, Col, PageHeader, FormControl, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 
 import Post from '../dtos/Post'
 import { getAsyncPost, addAsyncPost, updateAsyncPost } from '../actions/posts';
@@ -95,35 +95,52 @@ class PostEditor extends React.Component {
 
   render() {
     return (
-      <div>
-        <b>Insert a new post:</b>
-        <form onSubmit={this.handleSubmit}>
-          Title<br />
-          <input type="text" onChange={(event) => this.updateTitle(event.target.value)} value={this.state.post.title} /><br />
+      <Grid>
+        <Row>
+          <Col md={12}>
+            <PageHeader>Insert a new post</PageHeader>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <form onSubmit={this.handleSubmit}>
 
-          Author<br />
-          {this.state.view === INSERT && <input type="text" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.post.author} />}
-          {this.state.view === UPDATE && this.state.post.author}
-          <br />
+              <FormGroup>
+                <ControlLabel>Title</ControlLabel>
+                <FormControl type="text" placeholder="Title" onChange={(event) => this.updateTitle(event.target.value)} value={this.state.post.title} />
+              </FormGroup>
 
-          Category <br />
-          {this.state.view === INSERT && <select value={this.state.post.category} onChange={(event) => this.updateCategory(event.target.value)}>
-            <option></option>
-            {this.props.categories && Object.values(this.props.categories).map(
-              (category, idx) => (<option value={category.name} key={idx}>{category.name}</option>)
-            )}
-          </select>}
-          {this.state.view === UPDATE && this.state.post.category}
-          <br />
+              <ControlLabel>Author</ControlLabel>
+              <br />
+              {this.state.view === INSERT && <FormControl type="text" placeholder="Author" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.post.author} />}
+              {this.state.view === UPDATE && this.state.post.author}
+              <br />
 
-          Body<br />
-          <textarea value={this.state.post.body} onChange={(event) => this.updateBody(event.target.value)} />
-          <br />
-          <button onClick={this.savePost}>Save</button>
-        </form>
+              <ControlLabel>Category</ControlLabel>
+              <br />
+              {this.state.view === INSERT &&
+                <FormGroup>
+                  <FormControl componentClass="select" placeholder="Category" value={this.state.post.category} onChange={(event) => this.updateCategory(event.target.value)}>
+                    <option></option>
+                    {this.props.categories && Object.values(this.props.categories).map(
+                      (category, idx) => (<option value={category.name} key={idx}>{category.name}</option>)
+                    )}
+                  </FormControl>
+                </FormGroup>
+              }
+              {this.state.view === UPDATE && this.state.post.category}
+              <br />
 
-        <Link to="/">Go to home</Link>
-      </div>
+              <FormGroup>
+                <ControlLabel>Body</ControlLabel>
+                <FormControl componentClass="textarea" value={this.state.post.body} onChange={(event) => this.updateBody(event.target.value)} />
+              </FormGroup>
+              <br />
+              <Button bsStyle="primary" onClick={this.savePost}>Save</Button>
+            </form>
+          </Col>
+        </Row>
+      </Grid >
     );
   }
 }
