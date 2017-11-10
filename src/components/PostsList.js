@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Table, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import { UP_VOTE, DOWN_VOTE } from '../data';
 import { sortByField } from '../lib/sort';
@@ -53,28 +53,35 @@ class PostsList extends React.Component {
 
     return (
       <div>
-        <select value={this.state.postsSort} onChange={(event) => this.updateSort(event.target.value)}>
-          <option value={SORT_BY_VOTE_SCORE}>{SORT_BY_VOTE_SCORE}</option>
-          <option value={SORT_BY_TIMESTAMP}>{SORT_BY_TIMESTAMP}</option>
-        </select>
-        <ul className="posts-list">
-          {posts.map((post, idx) => {
-            let commentsNumber = 0;
+        <FormGroup controlId="formControlsSelect">
+          <ControlLabel>Order</ControlLabel>
+          <FormControl componentClass="select" value={this.state.postsSort} onChange={(event) => this.updateSort(event.target.value)}>
+            <option value={SORT_BY_VOTE_SCORE}>{SORT_BY_VOTE_SCORE}</option>
+            <option value={SORT_BY_TIMESTAMP}>{SORT_BY_TIMESTAMP}</option>
+          </FormControl>
+        </FormGroup>
 
-            if (this.props.comments[post.id]) {
-              commentsNumber = this.props.comments[post.id].length;
-            }
+        <Table striped hover>
+          <tbody>
+            {posts.map((post, idx) => {
+              let commentsNumber = 0;
 
-            return (
-              <li key={idx}>
-                <Link to={"/post/" + post.id}>{post.title}</Link>
-                (score: {post.voteScore}) (comments: {commentsNumber})
+              if (this.props.comments[post.id]) {
+                commentsNumber = this.props.comments[post.id].length;
+              }
+
+              return (
+                <tr key={idx}>
+                  <td>
+                    <Link to={"/post/" + post.id}>{post.title}</Link>
+                    (score: {post.voteScore}) (comments: {commentsNumber})
                 <button onClick={() => this.props.votePost(post.id, UP_VOTE)}>up</button> <button onClick={() => this.props.votePost(post.id, DOWN_VOTE)}>down</button>
-                <Button bsStyle="primary">Primary</Button>
-              </li>
-            )
-          })}
-        </ul>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </Table>
       </div>
     );
   }
