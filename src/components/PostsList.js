@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Table, FormGroup, FormControl, ControlLabel, Glyphicon, Button, Badge } from 'react-bootstrap';
 
 import { UP_VOTE, DOWN_VOTE } from '../data';
 import { sortByField } from '../lib/sort';
@@ -42,6 +42,9 @@ class PostsList extends React.Component {
 
   render() {
     let posts = [];
+    let titleStyle = {
+      width: "80%"
+    };
 
     if (this.state.posts) {
       posts = this.state.posts;
@@ -72,10 +75,26 @@ class PostsList extends React.Component {
 
               return (
                 <tr key={idx}>
-                  <td>
+                  <td style={titleStyle}>
                     <Link to={"/post/" + post.id}>{post.title}</Link>
-                    (score: {post.voteScore}) (comments: {commentsNumber})
-                <button onClick={() => this.props.votePost(post.id, UP_VOTE)}>up</button> <button onClick={() => this.props.votePost(post.id, DOWN_VOTE)}>down</button>
+                  </td>
+                  <td>
+                    Score
+                  </td>
+                  <td>
+                    <Badge>{post.voteScore}</Badge>
+                  </td>
+                  <td>
+                    <Button onClick={() => this.props.votePost(post.id, UP_VOTE)} bsSize="xsmall"><Glyphicon glyph="plus" /></Button>
+                  </td>
+                  <td>
+                    <Button onClick={() => this.props.votePost(post.id, DOWN_VOTE)} bsSize="xsmall"><Glyphicon glyph="minus" /></Button>
+                  </td>
+                  <td>
+                    Comments
+                  </td>
+                  <td>
+                    <Badge>{commentsNumber}</Badge>
                   </td>
                 </tr>
               )
