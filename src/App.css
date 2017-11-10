@@ -12,9 +12,7 @@ body, .app {
 
 .categories-names-list {
   list-style-type: none;
-  margin: 0px;
-  width: 200px;
-  height: 100vh;
+  margin: 0px; 
   background: #2e7c31;
 }
 

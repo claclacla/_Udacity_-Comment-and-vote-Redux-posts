@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import { UP_VOTE, DOWN_VOTE } from '../data';
@@ -69,6 +70,7 @@ class PostsList extends React.Component {
                 <Link to={"/post/" + post.id}>{post.title}</Link>
                 (score: {post.voteScore}) (comments: {commentsNumber})
                 <button onClick={() => this.props.votePost(post.id, UP_VOTE)}>up</button> <button onClick={() => this.props.votePost(post.id, DOWN_VOTE)}>down</button>
+                <Button bsStyle="primary">Primary</Button>
               </li>
             )
           })}

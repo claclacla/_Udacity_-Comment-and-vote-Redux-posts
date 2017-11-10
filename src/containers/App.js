@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 
 import { getAsyncCategories } from '../actions/categories';
 
+import Menu from '../components/Menu';
 import Home from './Home';
 import PostCategory from './PostCategory';
 import PostDetail from './PostDetail';
@@ -20,6 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Menu />
         <Route exact path="/" component={Home}></Route>
         <Route path="/category/:categoryName" component={PostCategory}></Route>
         <Route path="/post/:postId" component={PostDetail}></Route>
