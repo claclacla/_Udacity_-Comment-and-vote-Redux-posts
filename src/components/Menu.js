@@ -3,19 +3,17 @@ import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-class Menu extends React.Component {
-  render() {
+const Menu = function(props) {
     return (
       <Nav bsStyle="tabs">
         <LinkContainer to="/"><NavItem>Home</NavItem></LinkContainer>
         <NavDropdown title="Categories" id="nav-dropdown">
-          {this.props.categories && Object.keys(this.props.categories).map((categoryName, idx) => (
-            <LinkContainer key={idx} to={"/category/" + this.props.categories[categoryName].path}><MenuItem>{categoryName}</MenuItem></LinkContainer>
+          {props.categories && Object.keys(props.categories).map((categoryName, idx) => (
+            <LinkContainer key={idx} to={"/category/" + props.categories[categoryName].path}><MenuItem>{categoryName}</MenuItem></LinkContainer>
           ))}
         </NavDropdown>
       </Nav>
     );
-  }
 }
 
 function mapStateToProps({ categories }) {

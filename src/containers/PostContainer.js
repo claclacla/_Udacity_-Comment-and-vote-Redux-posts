@@ -6,27 +6,25 @@ import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 
 import PostsList from '../components/PostsList';
 
-class PostContainer extends React.Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    categoryName: PropTypes.string
-  }
+const PostContainer = function (props) {
+  return (
+    <Grid>
+      <Row>
+        <Col md={12}>
+          <PageHeader>{props.title}</PageHeader>
+          <PostsList category={props.categoryName} />
+          <LinkContainer to="/post-editor">
+            <Button bsStyle="primary">Add a new post</Button>
+          </LinkContainer>
+        </Col>
+      </Row>
+    </Grid>
+  );
+}
 
-  render() {
-    return (
-      <Grid>
-        <Row>
-          <Col md={12}>
-            <PageHeader>{this.props.title}</PageHeader>
-            <PostsList category={this.props.categoryName} />
-            <LinkContainer to="/post-editor">
-              <Button bsStyle="primary">Add a new post</Button>
-            </LinkContainer>
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
+PostContainer.propTypes = {
+  title: PropTypes.string.isRequired,
+  categoryName: PropTypes.string
 }
 
 function mapStateToProps({ categories }) {
