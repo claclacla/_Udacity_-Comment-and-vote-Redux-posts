@@ -37,6 +37,18 @@ class CommentsRESTRepository extends IRESTRepository {
       headers: this.headers
     }).then(res => res.json());
   }
+
+  vote(id, vote) {
+    return fetch(`${this.address}/comments/` + id, {
+      method: 'POST',
+      headers: {
+        ...this.headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(vote)
+    })
+      .then(res => res.json());
+  }
 }
 
 export default CommentsRESTRepository

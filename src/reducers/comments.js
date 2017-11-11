@@ -1,4 +1,5 @@
-import { GET_COMMENTS, ADD_COMMENT, UPDATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
+import { UP_VOTE } from '../data';
+import { GET_COMMENTS, ADD_COMMENT, UPDATE_COMMENT, DELETE_COMMENT, VOTE_COMMENT } from '../actions/comments';
 
 function comments(state = {}, action) {
   let postComments = null;
@@ -30,6 +31,20 @@ function comments(state = {}, action) {
     case DELETE_COMMENT:
       postComments = state[action.postId];
       postComments = postComments.filter(comment => comment.id !== action.id);
+
+      return Object.assign({}, state, {
+        [action.postId]: postComments
+      });
+    case VOTE_COMMENT:
+      postComments = state[action.postId];
+
+      postComments.map(comment => {
+        if(comment.id === action.id) {
+          comment.voteScore += action.vote === UP_VOTE ? 1 : -1;
+        }
+
+        return comment;
+      });      
 
       return Object.assign({}, state, {
         [action.postId]: postComments

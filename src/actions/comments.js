@@ -6,6 +6,7 @@ export const GET_COMMENTS = "GET_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const UPDATE_COMMENT = "UPDATE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+export const VOTE_COMMENT = "VOTE_COMMENT";
 
 export function getComments({ postId, comments }) {
   return {
@@ -34,6 +35,15 @@ export function deleteComment({ postId, id }) {
     type: DELETE_COMMENT,
     postId,
     id
+  }
+}
+
+export function updatePostVote({postId, id, vote}) {
+  return {
+    type: VOTE_COMMENT,
+    postId,
+    id, 
+    vote
   }
 }
 
@@ -66,5 +76,13 @@ export function deleteAsyncComment(postId, id) {
     commentsRESTRepository.remove(id).then((res) => {
       dispatch(deleteComment({ postId, id }));
     });
+  }
+}
+
+export function updateAsyncPostVote(postId, id, vote) {
+  return function (dispatch) {
+    commentsRESTRepository.vote(id, {option: vote}).then(() => {
+      dispatch(updatePostVote({postId, id, vote}));
+    })
   }
 }

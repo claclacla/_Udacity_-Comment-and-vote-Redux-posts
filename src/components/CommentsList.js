@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Badge, Button, FormGroup, FormControl } from 'react-bootstrap';
+import { Table, Badge, Button, FormGroup, FormControl, Glyphicon } from 'react-bootstrap';
 
+import { UP_VOTE, DOWN_VOTE } from '../data';
 import { sortByField } from '../lib/sort';
-import { updateAsyncComment, getAsyncComments, deleteAsyncComment } from '../actions/comments'
+import { updateAsyncComment, getAsyncComments, deleteAsyncComment, updateAsyncPostVote } from '../actions/comments'
 
 const SORT_BY_VOTE_SCORE = "voteScore";
 
@@ -107,7 +108,12 @@ class CommentsList extends React.Component {
                 </td>
                 <td>
                   Score
+                  &nbsp;
                   <Badge>{comment.voteScore}</Badge>
+                  &nbsp;
+                  <Button onClick={() => this.props.voteComment(this.props.postId, comment.id, UP_VOTE)} bsSize="xsmall"><Glyphicon glyph="plus" /></Button>
+                  &nbsp;
+                  <Button onClick={() => this.props.voteComment(this.props.postId, comment.id, DOWN_VOTE)} bsSize="xsmall"><Glyphicon glyph="minus" /></Button>
                 </td>
                 <td>
                   <span className="body">{comment.body}</span>
@@ -144,7 +150,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getComments: (postId) => dispatch(getAsyncComments(postId)),
     updateComment: (comment) => dispatch(updateAsyncComment(comment)),
-    deleteComment: (postId, id) => dispatch(deleteAsyncComment(postId, id))
+    deleteComment: (postId, id) => dispatch(deleteAsyncComment(postId, id)),
+    voteComment: (postId, id, vote) => dispatch(updateAsyncPostVote(postId, id, vote))
   }
 }
 
