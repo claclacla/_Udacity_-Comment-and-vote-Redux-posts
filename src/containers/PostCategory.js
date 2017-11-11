@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 
 import PostsList from '../components/PostsList';
@@ -18,7 +19,9 @@ class PostCategory extends React.Component {
           <Col md={12}>
             <PageHeader>{this.categoryName}</PageHeader>
             <PostsList category={this.categoryName} />
-            <Button bsStyle="primary" href="/post-editor">Add a new post</Button>
+            <LinkContainer to="/post-editor">
+              <Button bsStyle="primary">Add a new post</Button>
+            </LinkContainer>
           </Col>
         </Row>
       </Grid>
