@@ -15,6 +15,14 @@ class CommentEditor extends React.Component {
         parentId: props.postId,
         author: "",
         body: ""
+      },
+      form: {
+        validation: {
+          fields: {
+            author: null,
+            body: null
+          }
+        }
       }
     }
   }
@@ -35,9 +43,36 @@ class CommentEditor extends React.Component {
     });
   }
 
+  setValidationState = (fieldName, validationState) => {
+    this.setState((prevState, props) => {
+      return {
+        form: {
+          validation: {
+            fields: Object.assign({}, prevState.form.validation.fields, {[fieldName]: validationState})
+          }
+        }
+      }
+    });
+  }
+
   saveComment = () => {
     let author = this.state.comment.author;
     let body = this.state.comment.body;
+    let error = false;
+
+    if (!author) {
+      this.setValidationState("author", "error");
+      error = true;
+    }
+
+    if (!body) {
+      this.setValidationState("body", "error");
+      error = true;
+    }
+
+    if(error) {
+      return;
+    }
 
     let comment = new Comment(author, body, this.state.comment.parentId);
     this.props.addComment(comment);
@@ -56,13 +91,13 @@ class CommentEditor extends React.Component {
       <div>
         <h3>Add a new comment</h3>
         <form onSubmit={this.handleSubmit}>
-          <FormGroup>
+          <FormGroup validationState={this.state.form.validation.fields.author}>
             <ControlLabel>Author</ControlLabel>
-            <FormControl type="text" placeholder="Author" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.comment.author} />
+            <FormControl type="text" placeholder="Author" onKeyDown={() => {this.setValidationState("author", null)}} onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.comment.author} />
           </FormGroup>
-          <FormGroup>
+          <FormGroup validationState={this.state.form.validation.fields.body}>
             <ControlLabel>Body</ControlLabel>
-            <FormControl componentClass="textarea" value={this.state.comment.body} onChange={(event) => this.updateBody(event.target.value)} />
+            <FormControl componentClass="textarea" value={this.state.comment.body} onKeyDown={() => {this.setValidationState("body", null)}} onChange={(event) => this.updateBody(event.target.value)} />
           </FormGroup>
           <br />
           <Button bsStyle="primary" onClick={this.saveComment}>Save</Button>

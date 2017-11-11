@@ -98,7 +98,7 @@ class PostEditor extends React.Component {
       <Grid>
         <Row>
           <Col md={12}>
-            <PageHeader>Insert a new post</PageHeader>
+            <PageHeader>Post editor</PageHeader>
           </Col>
         </Row>
         <Row>
