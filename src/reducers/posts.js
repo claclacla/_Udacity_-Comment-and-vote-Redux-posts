@@ -1,5 +1,5 @@
 import { UP_VOTE } from '../data';
-import { GET_POSTS, ADD_POST, UPDATE_POST, GET_POST, DELETE_POST, VOTE_POST } from '../actions/posts';
+import { GET_POSTS, SET_POST, UPDATE_POST, DELETE_POST, VOTE_POST } from '../actions/posts';
 
 function posts(state = {}, action) {
   let posts = null;
@@ -10,15 +10,11 @@ function posts(state = {}, action) {
         hash[post.id] = post;
         return hash;
       }, {}));
-    case ADD_POST:
+    case SET_POST:
       return Object.assign({}, state, {
         [action.post.id]: action.post
       });
     case UPDATE_POST:
-      return Object.assign({}, state, {
-        [action.post.id]: action.post
-      });
-    case GET_POST:
       return Object.assign({}, state, {
         [action.post.id]: action.post
       });

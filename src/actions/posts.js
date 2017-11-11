@@ -3,9 +3,8 @@ import PostsRESTRepository from '../repositories/REST/PostsRESTRepository';
 var postsRESTRepository = new PostsRESTRepository();
 
 export const GET_POSTS = "GET_POSTS";
-export const ADD_POST = "ADD_POST";
+export const SET_POST = "SET_POST";
 export const UPDATE_POST = "UPDATE_POST";
-export const GET_POST = "GET_POST";
 export const DELETE_POST = "DELETE_POST";
 export const VOTE_POST = "VOTE_POST";
 
@@ -16,9 +15,9 @@ export function getPosts({ posts }) {
   }
 }
 
-export function addPost(post) {
+export function setPost(post) {
   return {
-    type: ADD_POST,
+    type: SET_POST,
     post
   }
 }
@@ -26,13 +25,6 @@ export function addPost(post) {
 export function updatePost(post) {
   return {
     type: UPDATE_POST,
-    post
-  }
-}
-
-export function getPost(post) {
-  return {
-    type: GET_POST,
     post
   }
 }
@@ -63,7 +55,7 @@ export function getAsyncPosts() {
 export function addAsyncPost(post) {
   return function (dispatch) {
     postsRESTRepository.add(post).then((resPost) => {
-      dispatch(addPost(resPost));
+      dispatch(setPost(resPost));
     })
   }
 }
@@ -79,7 +71,7 @@ export function updateAsyncPost(post) {
 export function getAsyncPost(id) {
   return function (dispatch) {
     postsRESTRepository.getById(id).then((post) => {
-      dispatch(getPost(post));
+      dispatch(setPost(post));
     })
   }
 }
