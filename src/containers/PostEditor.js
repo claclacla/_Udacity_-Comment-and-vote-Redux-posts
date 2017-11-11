@@ -24,6 +24,16 @@ class PostEditor extends React.Component {
         author: "",
         category: "",
         body: ""
+      },
+      form: {
+        validation: {
+          fields: {
+            title: null,
+            author: null,
+            category: null,
+            body: null
+          }
+        }
       }
     }
   }
@@ -65,20 +75,62 @@ class PostEditor extends React.Component {
     });
   }
 
+  setValidationState = (fieldName, validationState) => {
+    this.setState((prevState, props) => {
+      return {
+        form: {
+          validation: {
+            fields: Object.assign({}, prevState.form.validation.fields, { [fieldName]: validationState })
+          }
+        }
+      }
+    });
+  }
+
   savePost = () => {
+    let title = this.state.post.title;
+    let category = this.state.post.category;
+    let author = this.state.post.author;
+    let body = this.state.post.body;
+    let error = false;
+
+    if (this.state.view === INSERT && !category) {
+      this.setValidationState("category", "error");
+      error = true;
+    }
+
+    if (this.state.view === INSERT && !author) {
+      this.setValidationState("author", "error");
+      error = true;
+    }
+
+    if (!title) {
+      this.setValidationState("title", "error");
+      error = true;
+    }
+
+    if (!body) {
+      this.setValidationState("body", "error");
+      error = true;
+    }
+
+    if (error) {
+      return;
+    }
+
     if (this.state.view === INSERT) {
-      var post = new Post(this.state.post.title);
+      var post = new Post(title);
 
-      if (this.state.post.author) {
-        post.author = this.state.post.author;
+      if (author) {
+        post.author = author;
       }
 
-      if (this.state.post.category) {
-        post.category = this.state.post.category;
+      if (category) {
+        post.category = category;
       }
 
-      if (this.state.post.body) {
-        post.body = this.state.post.body;
+      if (body) {
+        post.body = body;
       }
 
       this.props.addPost(post);
@@ -105,35 +157,35 @@ class PostEditor extends React.Component {
           <Col md={12}>
             <form onSubmit={this.handleSubmit}>
 
-              <FormGroup>
+              <FormGroup validationState={this.state.form.validation.fields.title}>
                 <ControlLabel>Title</ControlLabel>
-                <FormControl type="text" placeholder="Title" onChange={(event) => this.updateTitle(event.target.value)} value={this.state.post.title} />
+                <FormControl type="text" placeholder="Title" onKeyDown={() => {this.setValidationState("title", null)}} onChange={(event) => this.updateTitle(event.target.value)} value={this.state.post.title} />
               </FormGroup>
 
-              <ControlLabel>Author</ControlLabel>
-              <br />
-              {this.state.view === INSERT && <FormControl type="text" placeholder="Author" onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.post.author} />}
-              {this.state.view === UPDATE && this.state.post.author}
-              <br />
+              <FormGroup validationState={this.state.form.validation.fields.author}>
+                <ControlLabel>Author</ControlLabel>
+                <br />
+                {this.state.view === INSERT && <FormControl type="text" placeholder="Author"  onKeyDown={() => {this.setValidationState("author", null)}} onChange={(event) => this.updateAuthor(event.target.value)} value={this.state.post.author} />}
+                {this.state.view === UPDATE && this.state.post.author}
+              </FormGroup>
 
-              <ControlLabel>Category</ControlLabel>
-              <br />
-              {this.state.view === INSERT &&
-                <FormGroup>
-                  <FormControl componentClass="select" placeholder="Category" value={this.state.post.category} onChange={(event) => this.updateCategory(event.target.value)}>
+              <FormGroup validationState={this.state.form.validation.fields.category}>
+                <ControlLabel>Category</ControlLabel>
+                <br />
+                {this.state.view === INSERT &&
+                  <FormControl componentClass="select" placeholder="Category" value={this.state.post.category} onChange={(event) => {this.setValidationState("category", null); this.updateCategory(event.target.value)}}>
                     <option></option>
                     {this.props.categories && Object.values(this.props.categories).map(
                       (category, idx) => (<option value={category.name} key={idx}>{category.name}</option>)
                     )}
                   </FormControl>
-                </FormGroup>
-              }
-              {this.state.view === UPDATE && this.state.post.category}
-              <br />
+                }
+                {this.state.view === UPDATE && this.state.post.category}
+              </FormGroup>
 
-              <FormGroup>
+              <FormGroup validationState={this.state.form.validation.fields.body}>
                 <ControlLabel>Body</ControlLabel>
-                <FormControl componentClass="textarea" value={this.state.post.body} onChange={(event) => this.updateBody(event.target.value)} />
+                <FormControl componentClass="textarea" value={this.state.post.body} onKeyDown={() => {this.setValidationState("body", null)}} onChange={(event) => this.updateBody(event.target.value)} />
               </FormGroup>
               <br />
               <Button bsStyle="primary" onClick={this.savePost}>Save</Button>
