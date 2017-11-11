@@ -139,6 +139,8 @@ class PostEditor extends React.Component {
     else {
       this.props.updatePost(this.state.post);
     }
+
+    this.props.history.goBack();
   }
 
   handleSubmit = (event) => {
