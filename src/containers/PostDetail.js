@@ -26,7 +26,7 @@ class PostDetail extends React.Component {
 
       if (posts && posts[this.postId]) {
         let post = Object.assign({}, posts[this.postId]);
-        post.timestamp = parseTimestamp(post.timestamp);
+        post.date = parseTimestamp(post.timestamp);
         this.setState({ post });
       }
     }
@@ -53,7 +53,7 @@ class PostDetail extends React.Component {
               <tbody>
                 <tr>
                   <td><b>Date</b></td>
-                  <td> {post.timestamp}</td>
+                  <td> {post.date}</td>
                 </tr>
                 <tr>
                   <td><b>Vote score</b></td>

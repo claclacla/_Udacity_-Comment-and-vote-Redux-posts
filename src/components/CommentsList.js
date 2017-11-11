@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Badge, Button, FormGroup, FormControl, Glyphicon } from 'react-bootstrap';
 
+import { parseTimestamp } from '../lib/date';
 import { UP_VOTE, DOWN_VOTE } from '../data';
 import { sortByField } from '../lib/sort';
 import { updateAsyncComment, getAsyncComments, deleteAsyncComment, updateAsyncPostVote } from '../actions/comments'
@@ -30,6 +31,11 @@ class CommentsList extends React.Component {
 
       if (nextProps.comments[this.props.postId] !== undefined) {
         comments = sortByField(nextProps.comments[this.props.postId], SORT_BY_VOTE_SCORE);
+
+        comments.map(comment => {
+          comment.date = parseTimestamp(comment.timestamp);
+          return comment;
+        });
 
         this.setState({ comments });
       }
@@ -94,6 +100,7 @@ class CommentsList extends React.Component {
         <Table hover striped>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Name</th>
               <th></th>
               <th>Comment</th>
@@ -103,6 +110,9 @@ class CommentsList extends React.Component {
           <tbody>
             {comments && comments.map((comment, idx) => (
               <tr className="comment" key={idx}>
+                <td>
+                  {comment.date}
+                </td>
                 <td>
                   {comment.author}
                 </td>
