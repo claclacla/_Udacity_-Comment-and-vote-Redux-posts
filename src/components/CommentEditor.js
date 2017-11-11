@@ -41,6 +41,10 @@ class CommentEditor extends React.Component {
 
     let comment = new Comment(author, body, this.state.comment.parentId);
     this.props.addComment(comment);
+
+    this.setState((prevState, props) => {
+      return { comment: Object.assign({}, prevState.comment, { author: "", body: "" }) };
+    });
   }
 
   handleSubmit(event) {
