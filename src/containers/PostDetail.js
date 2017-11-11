@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Grid, Row, Col, PageHeader, Table, Button } from 'react-bootstrap';
 
+import { parseTimestamp } from '../lib/date';
 import CommentsList from '../components/CommentsList';
 import CommentEditor from '../components/CommentEditor';
 import { getAsyncPost, deleteAsyncPost } from '../actions/posts';
@@ -25,25 +26,7 @@ class PostDetail extends React.Component {
 
       if (posts && posts[this.postId]) {
         let post = Object.assign({}, posts[this.postId]);
-
-        let getTimeDataString = function (timeData) {
-          let timeDataString = timeData.toString();
-
-          if (timeDataString.length === 1) {
-            timeDataString = "0" + timeDataString;
-          }
-          return timeDataString;
-        };
-
-        let timestamp = new Date(post.timestamp);
-        let timestampString = getTimeDataString(timestamp.getHours());
-        timestampString += ":" + getTimeDataString(timestamp.getMinutes());
-        timestampString += " " + getTimeDataString(timestamp.getDate());
-        timestampString += "/" + getTimeDataString(timestamp.getMonth());
-        timestampString += "/" + timestamp.getFullYear();
-
-        post.timestamp = timestampString;
-
+        post.timestamp = parseTimestamp(post.timestamp);
         this.setState({ post });
       }
     }
