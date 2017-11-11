@@ -1,15 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 
 import PostsList from '../components/PostsList';
 
-class PostCategory extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.categoryName = this.props.match.params.categoryName;
+class PostContainer extends React.Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    categoryName: PropTypes.string
   }
 
   render() {
@@ -17,8 +17,8 @@ class PostCategory extends React.Component {
       <Grid>
         <Row>
           <Col md={12}>
-            <PageHeader>{this.categoryName}</PageHeader>
-            <PostsList category={this.categoryName} />
+            <PageHeader>{this.props.title}</PageHeader>
+            <PostsList category={this.props.categoryName} />
             <LinkContainer to="/post-editor">
               <Button bsStyle="primary">Add a new post</Button>
             </LinkContainer>
@@ -37,4 +37,4 @@ function mapStateToProps({ categories }) {
 
 export default connect(
   mapStateToProps
-)(PostCategory)
+)(PostContainer)

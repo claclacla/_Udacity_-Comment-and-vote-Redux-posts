@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { getAsyncCategories } from '../actions/categories';
 
 import Menu from '../components/Menu';
-import Home from './Home';
-import PostCategory from './PostCategory';
+import PostContainer from './PostContainer';
 import PostDetail from './PostDetail';
 import PostEditor from './PostEditor';
 import '../App.css';
@@ -22,8 +21,16 @@ class App extends Component {
     return (
       <div className="App">
         <Menu />
-        <Route exact path="/" component={Home}></Route>
-        <Route path="/category/:categoryName" component={PostCategory}></Route>
+        <Route exact path="/" render={(routeProps) => {
+          return (
+            <PostContainer title="React, Redux or Udacity" />
+          );
+        }} />
+        <Route path="/category/:categoryName" render={(routeProps) => {
+          return (
+            <PostContainer title={routeProps.match.params.categoryName} categoryName={routeProps.match.params.categoryName} />
+          );
+        }} />
         <Route path="/post/:postId" component={PostDetail}></Route>
         <Route path="/post-editor/:postId?" component={PostEditor}></Route>
       </div>
