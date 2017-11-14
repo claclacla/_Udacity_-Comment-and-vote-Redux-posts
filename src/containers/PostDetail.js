@@ -41,6 +41,18 @@ class PostDetail extends React.Component {
   render() {
     const { post } = this.state;
 
+    if (!post.hasOwnProperty("id")) {
+      return (
+        <Grid>
+          <Row>
+            <Col mdOffset={4} md={4}>
+              <h1>404 Page not found</h1>
+            </Col>
+          </Row>
+        </Grid >
+      )
+    }
+
     return (
       <Grid>
         <Row>
