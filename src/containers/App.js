@@ -26,12 +26,12 @@ class App extends Component {
             <PostContainer title="React, Redux or Udacity" />
           );
         }} />
-        <Route path="/:categoryName" render={(routeProps) => {
+        <Route exact path="/:categoryName" render={(routeProps) => {
           return (
             <PostContainer title={routeProps.match.params.categoryName} categoryName={routeProps.match.params.categoryName} />
           );
         }} />
-        <Route path="/post/:postId" component={PostDetail}></Route>
+        <Route path="/:categoryName/:postId" component={PostDetail}></Route>
         <Route path="/post-editor/:postId?" component={PostEditor}></Route>
       </div>
     );

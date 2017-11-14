@@ -75,7 +75,7 @@ class PostsList extends React.Component {
               return (
                 <tr key={idx}>
                   <td style={titleStyle}>
-                    <Link to={"/post/" + post.id}>{post.title}</Link> - {post.author}
+                    <Link to={"/" + post.category + "/" + post.id}>{post.title}</Link> - {post.author}
                   </td>
                   <td>
                     Score
