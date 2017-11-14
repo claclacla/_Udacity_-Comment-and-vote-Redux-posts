@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, FormGroup, FormControl, ControlLabel, Glyphicon, Button, Badge } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import { UP_VOTE, DOWN_VOTE } from '../data';
 import { sortByField } from '../lib/sort';
-import { getAsyncPosts, updateAsyncPostVote } from '../actions/posts';
+import { getAsyncPosts, updateAsyncPostVote, deleteAsyncPost } from '../actions/posts';
 
 const SORT_BY_VOTE_SCORE = "voteScore";
 const SORT_BY_TIMESTAMP = "timestamp";
@@ -38,6 +39,10 @@ class PostsList extends React.Component {
       postsSort: field,
       posts: sortByField(this.state.posts, field)
     });
+  }
+
+  deletePost(id) {
+    this.props.deletePost(id);
   }
 
   render() {
@@ -76,7 +81,7 @@ class PostsList extends React.Component {
               return (
                 <tr key={idx}>
                   <td style={titleStyle}>
-                    <Link to={"/post/" + post.id}>{post.title}</Link>
+                    <Link to={"/post/" + post.id}>{post.title}</Link> - {post.author}
                   </td>
                   <td>
                     Score
@@ -95,6 +100,14 @@ class PostsList extends React.Component {
                   </td>
                   <td>
                     <Badge>{commentsNumber}</Badge>
+                  </td>
+                  <td>
+                    <LinkContainer to={"/post-editor/" + post.id}>
+                      <Button bsStyle="primary">Edit</Button>
+                    </LinkContainer>
+                  </td>
+                  <td>
+                    <Button bsStyle="danger" onClick={() => this.deletePost(post.id)}>Delete</Button>
                   </td>
                 </tr>
               )
@@ -116,7 +129,8 @@ function mapStateToProps({ posts, comments }) {
 function mapDispatchToProps(dispatch) {
   return {
     votePost: (id, vote) => dispatch(updateAsyncPostVote(id, vote)),
-    getPosts: () => dispatch(getAsyncPosts())
+    getPosts: () => dispatch(getAsyncPosts()),
+    deletePost: (id) => dispatch(deleteAsyncPost(id))
   }
 }
 
