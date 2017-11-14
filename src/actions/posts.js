@@ -71,6 +71,10 @@ export function updateAsyncPost(post) {
 export function getAsyncPost(id) {
   return function (dispatch) {
     postsRESTRepository.getById(id).then((post) => {
+      if(!post.hasOwnProperty("id")) {
+        return;
+      }
+      
       dispatch(setPost(post));
     })
   }
