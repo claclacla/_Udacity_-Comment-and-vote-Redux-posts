@@ -72,12 +72,6 @@ class PostsList extends React.Component {
         <Table striped hover>
           <tbody>
             {posts.map((post, idx) => {
-              let commentsNumber = 0;
-
-              if (this.props.comments[post.id]) {
-                commentsNumber = this.props.comments[post.id].length;
-              }
-
               return (
                 <tr key={idx}>
                   <td style={titleStyle}>
@@ -99,7 +93,7 @@ class PostsList extends React.Component {
                     Comments
                   </td>
                   <td>
-                    <Badge>{commentsNumber}</Badge>
+                    <Badge>{post.commentCount}</Badge>
                   </td>
                   <td>
                     <LinkContainer to={"/post-editor/" + post.id}>
@@ -119,10 +113,9 @@ class PostsList extends React.Component {
   }
 }
 
-function mapStateToProps({ posts, comments }) {
+function mapStateToProps({ posts }) {
   return {
-    posts,
-    comments
+    posts
   }
 }
 
