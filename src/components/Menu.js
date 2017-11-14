@@ -9,7 +9,7 @@ const Menu = function(props) {
         <LinkContainer to="/"><NavItem>Home</NavItem></LinkContainer>
         <NavDropdown title="Categories" id="nav-dropdown">
           {props.categories && Object.keys(props.categories).map((categoryName, idx) => (
-            <LinkContainer key={idx} to={"/category/" + props.categories[categoryName].path}><MenuItem>{categoryName}</MenuItem></LinkContainer>
+            <LinkContainer key={idx} to={"/" + props.categories[categoryName].path}><MenuItem>{categoryName}</MenuItem></LinkContainer>
           ))}
         </NavDropdown>
       </Nav>
