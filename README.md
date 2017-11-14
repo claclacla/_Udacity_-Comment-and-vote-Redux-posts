@@ -33,8 +33,8 @@ git clone https://github.com/udacity/reactnd-project-readable-starter
 # Change directory
 cd reactnd-project-readable-starter/api-server
 
-# Run the server
-node server
+# Install NPM dependencies
+npm i
 
 # Get the latest snapshot
 git clone https://github.com/claclacla/_Udacity_-Comment-and-vote-Redux-posts
@@ -51,7 +51,13 @@ npm i
 ### Usage
 
 ```
-# Change directory
+# Open a terminal and change directory to your API server location
+cd reactnd-project-readable-starter/api-server
+
+# Run the server
+node server
+
+# Open another terminal and change directory to your App location
 cd _Udacity_-Comment-and-vote-Redux-posts
 
 # Run the app
