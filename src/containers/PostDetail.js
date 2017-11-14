@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Grid, Row, Col, PageHeader, Table, Button } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Table, Button, Badge, Glyphicon } from 'react-bootstrap';
 
+import { UP_VOTE, DOWN_VOTE } from '../data';
 import { parseTimestamp } from '../lib/date';
 import CommentsList from '../components/CommentsList';
 import CommentEditor from '../components/CommentEditor';
-import { getAsyncPost, deleteAsyncPost } from '../actions/posts';
+import { getAsyncPost, updateAsyncPostVote, deleteAsyncPost } from '../actions/posts';
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -44,7 +45,15 @@ class PostDetail extends React.Component {
       <Grid>
         <Row>
           <Col md={12}>
-            <PageHeader>Post detail</PageHeader>
+            <PageHeader>
+              Post detail
+              &nbsp;
+              <Badge>{post.voteScore}</Badge>
+              &nbsp;
+              <Button onClick={() => this.props.votePost(post.id, UP_VOTE)} bsSize="xsmall"><Glyphicon glyph="plus" /></Button>
+              &nbsp;
+              <Button onClick={() => this.props.votePost(post.id, DOWN_VOTE)} bsSize="xsmall"><Glyphicon glyph="minus" /></Button>
+            </PageHeader>
           </Col>
         </Row>
         <Row>
@@ -109,6 +118,7 @@ function mapStateToProps({ posts }) {
 function mapDispatchToProps(dispatch) {
   return {
     getPost: (id) => dispatch(getAsyncPost(id)),
+    votePost: (id, vote) => dispatch(updateAsyncPostVote(id, vote)),
     deletePost: (id) => dispatch(deleteAsyncPost(id))
   }
 }

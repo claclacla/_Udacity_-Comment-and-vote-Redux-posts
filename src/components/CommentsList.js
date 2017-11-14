@@ -95,7 +95,7 @@ class CommentsList extends React.Component {
 
     return (
       <div>
-        <h3>Comments</h3>
+        <h3>Comments <Badge>{comments.length}</Badge></h3> 
         <br />
         <Table hover striped>
           <thead>
